@@ -30,7 +30,7 @@ module ListControls
         options[:params_scope] => { :order => new_scope }
       }.deep_merge(options[:params] || {})
       
-      link_to options[:as], url_for(url_options), html_options
+      link_to options[:as] || options[:by], url_for(url_options), html_options
     end
   end
 end

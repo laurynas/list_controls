@@ -7,7 +7,9 @@ module ActionController
     
     module ClassMethods
       def can_filter_and_sort(options = {})
-        include ActionController::FilterAndSort::InstanceMethods
+        include ActionController::ListControls::InstanceMethods
+        
+        attr_reader :filters
         
         before_filter :set_filters
       end
@@ -21,20 +23,16 @@ module ActionController
         {}
       end
       
-      def get_filters
-        @filters
-      end
-      
       def set_filters
-        session[:filter_and_sort]||= {}
+        session[:list_controls]||= {}
         
-        session_store           = session[:filter_and_sort][self.class.to_s]||= {}
+        session_store = session[:list_controls][self.class.to_s]||= {}
         session_store[:filters] ||= default_filters
         session_store[:filters].merge!(params[:filters] || {})
         
         @filters  = session_store[:filters]
         
-        session[:filter_and_sort][self.class.to_s] = session_store
+        session[:list_controls][self.class.to_s] = session_store
       end
     end
   

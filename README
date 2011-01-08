@@ -1,7 +1,9 @@
 list_controls
 =============
 
-Simple list filtering & sorting for Rails controller.
+Simple list filtering & sorting for Rails controller. 
+
+Plays nicely with SearchLogic.
 
 
 Example
@@ -18,12 +20,15 @@ Controller:
     end
   
     def index
-      @products = Product.all :conditions => {
-        :state        => @filters.state
-      } 
+      @products = Product.all :conditions => { :state => @filters.state }
     end
   
   end
+
+  # Note: 
+  #
+  # Sort param stored in @filters.order, example 'ascend_by_title'
+  # Easy use with SearchLogic.
 
 
 View:
