@@ -13,7 +13,7 @@ Controller:
 
   class ProductsController < ApplicationController
     
-    can_filter_and_sort
+    enable_list_controls
   
     def default_filters
       { 'state' => 'new' } 

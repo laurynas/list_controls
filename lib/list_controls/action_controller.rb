@@ -1,17 +1,17 @@
-module ActionController
-  module ListControls
+module ListControls
+  module ActionController
     
     def self.included(base)
       base.extend(ClassMethods)
     end
     
     module ClassMethods
-      def can_filter_and_sort(options = {})
-        include ActionController::ListControls::InstanceMethods
+      def enable_list_controls(options = {})
+        include ::ListControls::ActionController::InstanceMethods
         
         attr_reader :filters
         
-        before_filter :set_filters
+        before_filter :assign_filters
       end
     end
   
@@ -23,7 +23,7 @@ module ActionController
         {}
       end
       
-      def set_filters
+      def assign_filters
         session[:list_controls]||= {}
         
         session_store = session[:list_controls][self.class.to_s]||= {}
@@ -39,4 +39,4 @@ module ActionController
   end
 end
 
-::ActionController::Base.send(:include, ActionController::ListControls)
+::ActionController::Base.send(:include, ::ListControls::ActionController)
