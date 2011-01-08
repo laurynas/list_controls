@@ -13,7 +13,13 @@ module ListControls
         
         attr_reader :filters
         
-        before_filter :assign_filters
+        before_filter :list_controls_assign_filters
+        
+        @list_controls_default_filters = options[:default_filters] || {}
+      end
+
+      def list_controls_default_filters
+        @list_controls_default_filters
       end
     end
   
@@ -21,15 +27,16 @@ module ListControls
       
       protected
       
-      def default_filters
-        {}
+      def list_controls_default_filters
+        f = self.class.list_controls_default_filters
+        f.is_a?(Proc) ? f.call(self) : f
       end
       
-      def assign_filters
+      def list_controls_assign_filters
         session[:list_controls]||= {}
         
         session_store = session[:list_controls][self.class.to_s]||= {}
-        session_store[:filters] ||= default_filters
+        session_store[:filters] ||= list_controls_default_filters
         session_store[:filters].merge!(params[:filters] || {})
         
         tmp_filters  = session_store[:filters]

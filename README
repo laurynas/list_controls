@@ -13,11 +13,7 @@ Controller:
 
   class ProductsController < ApplicationController
     
-    enable_list_controls
-  
-    def default_filters
-      { 'state' => 'new' } 
-    end
+    enable_list_controls :default_filters => { 'state' => 'new' } 
   
     def index
       @products = Product.all :conditions => { :state => @filters.state }
