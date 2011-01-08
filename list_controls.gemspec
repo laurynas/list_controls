@@ -2,7 +2,7 @@ $: << File.expand_path('../lib', __FILE__)
 
 Gem::Specification.new do |s|
   s.name         = 'list_controls'
-  s.version      = '0.1.1'
+  s.version      = '0.1.2'
   s.authors      = ['Laurynas Butkus']
   s.email        = 'laurynas.butkus@gmail.com'
   s.homepage     = 'http://github.com/laurynas/list_controls'

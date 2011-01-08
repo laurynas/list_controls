@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module ListControls
   module ActionController
     
@@ -30,7 +32,9 @@ module ListControls
         session_store[:filters] ||= default_filters
         session_store[:filters].merge!(params[:filters] || {})
         
-        @filters  = session_store[:filters]
+        tmp_filters  = session_store[:filters]
+        
+        @filters = OpenStruct.new(tmp_filters)
         
         session[:list_controls][self.class.to_s] = session_store
       end
