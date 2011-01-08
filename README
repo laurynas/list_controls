@@ -9,28 +9,49 @@ Example
 
 Controller:
 
-class ProductsController < ApplicationController
+  class ProductsController < ApplicationController
+    
+    can_filter_and_sort
   
-  can_filter_and_sort
-
-  def default_filters
-    { 'assignee_id'   => current_user.id,
-      'status_id'     => 'not_closed',
-      'interval_code' => 'next7' } 
+    def default_filters
+      { 'state' => 'new' } 
+    end
+  
+    def index
+      @products = Product.all :conditions => {
+        :state        => @filters.state
+      } 
+    end
+  
   end
 
-  def index
-    conds = {
-      :type_id      => @filters.type_id,
-      :project_id   => @filters.project_id,
-      :assignee_id  => @filters.assignee_id
-    }
 
-    ...
+View:
 
-  end
+  <div id="filters">
+    <%= form_for :filters, @filters, :html => { :method => :get } do |f| %>
+    
+      <%= f.label :state %>
+      <%= f.select :state, states_for_filter %>
+    
+    <% end %>
+  </div>
 
-end
+  <table>
+    <tr>
+      <th><%= sort @filters, :by => :id %></th>
+      <th><%= sort @filters, :by => :title, :as => t(:product_title) %></th>
+      <th><%= sort @filters, :by => :state, :as => t(:state) %></th>
+    </tr>
+    
+    <% for product in @products %>
+      <tr>
+        <td><%= product.id %></td>
+        <td><%= product.title %></td>
+        <td><%= product.state %></td>
+      </tr>
+    <% end %>    
+  </table>
 
 
 Copyright (c) 2009 Laurynas Butkus, released under the MIT license
