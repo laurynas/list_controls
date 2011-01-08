@@ -1,0 +1,36 @@
+list_controls
+=============
+
+Simple list filtering & sorting for Rails controller.
+
+
+Example
+=======
+
+Controller:
+
+class ProductsController < ApplicationController
+  
+  can_filter_and_sort
+
+  def default_filters
+    { 'assignee_id'   => current_user.id,
+      'status_id'     => 'not_closed',
+      'interval_code' => 'next7' } 
+  end
+
+  def index
+    conds = {
+      :type_id      => @filters.type_id,
+      :project_id   => @filters.project_id,
+      :assignee_id  => @filters.assignee_id
+    }
+
+    ...
+
+  end
+
+end
+
+
+Copyright (c) 2009 Laurynas Butkus, released under the MIT license
