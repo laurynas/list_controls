@@ -6,7 +6,7 @@ module ListControls
       options[:descend_scope] ||= "descend_by_#{options[:by]}"
       options[:sort_class] ||= 'sort'
       
-      current_order = filters['order']
+      current_order = filters.order
       
       ascending = current_order == options[:ascend_scope]
       new_scope = ascending ? options[:descend_scope] : options[:ascend_scope]
